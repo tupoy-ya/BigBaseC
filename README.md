@@ -1,6 +1,6 @@
 # BigBaseC
  An improved BigBaseC with a more usable code base and classes. This was made in about 3 days, and has no apparent issues.
- I'm still working out some kicks so please keep that in mind.
+ I'm still working out some kinks so please keep that in mind.
 
 # License:
 - This project is licensed under the GNU General Public License Version 3
