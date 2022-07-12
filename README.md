@@ -8,6 +8,7 @@
 
 # Issues
 - Visual C++ is neeeded (Get it here: https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+- You'll need to do some things yourself, such as adding more classes
 
 # Projects used
 - BigBaseC (github.com/Poccaking/BigBaseC)
