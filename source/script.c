@@ -52,12 +52,6 @@ void settingsmenu() {
 		g_running = false;
 }
 void mainmenu() {
-	if (drawOption("Join a session", "")) {
-		*(int*)getScriptGlobalPtr(1575012) = 0;
-		*(bool*)getScriptGlobalPtr(1574589) = true;
-		fbrYield(&g_mainFbr, 200);
-		*(bool*)getScriptGlobalPtr(1574589) = false;
-	}
 	drawSub("Players", "", playersmenu);
 	drawSub("Settings", "", settingsmenu);
 	if (drawOption("Suicide", "")) {
@@ -75,7 +69,6 @@ void scrMain() {
 			GRAPHICS_SET_SCRIPT_GFX_DRAW_ORDER(8);
 			GRAPHICS_FORCE_RENDER_IN_GAME_UI(true);
 			GRAPHICS_SET_SCRIPT_GFX_DRAW_BEHIND_PAUSEMENU(true);
-			ENTITY_SET_ENTITY_VISIBLE(PLAYER_PLAYER_PED_ID(), true, false);
 			drawTitle("BigBase");
 			g_currentMenu();
 			drawSubtitle(g_currentSubmenu);
