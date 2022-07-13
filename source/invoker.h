@@ -25,22 +25,19 @@ extern nativeCtx g_context;
 extern scrNativeHash g_hash;
 void initInvoker();
 
-/*
-DECLSPEC_NOINLINE void nativeInit(scrNativeHash hash);
-FORCEINLINE void nativePush(uint64_t value) {
-	g_context.m_argStack[g_context.m_base.m_argCount++] = value;
-}
-DECLSPEC_NOINLINE void* nativeCall();
- * add this to MSVC only block
-*/
-
-
-__attribute__((noinline)) void nativeInit(scrNativeHash hash);
-inline void nativePush(uint64_t value) {
-	g_context.m_argStack[g_context.m_base.m_argCount++] = value;
-}
-__attribute__((noinline)) void* nativeCall();
-
+#ifdef _MSC_VER
+	DECLSPEC_NOINLINE void nativeInit(scrNativeHash hash);
+	FORCEINLINE void nativePush(uint64_t value) {
+		g_context.m_argStack[g_context.m_base.m_argCount++] = value;
+	}
+	DECLSPEC_NOINLINE void* nativeCall();
+#else
+	__attribute__((noinline)) void nativeInit(scrNativeHash hash);
+	inline void nativePush(uint64_t value) {
+		g_context.m_argStack[g_context.m_base.m_argCount++] = value;
+	}
+	__attribute__((noinline)) void* nativeCall();
+#endif
 typedef uint32_t Any;
 typedef uint32_t Hash;
 typedef int Entity;

@@ -8,7 +8,7 @@ file(GLOB ROOT_SRC ${PROJECT_SOURCE_DIR}/*c)
 
 add_library(BigBaseC MODULE ${ROOT_SRC})
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+if (CMAKE_C_COMPILER_ID MATCHES "MSVC")
     target_compile_options(BigBaseC PRIVATE -DUNICODE -D_UNICODE -DNOMINMAX /Zi)
     target_link_options(BigBaseC PRIVATE /DEBUG /OPT:REF /OPT:ICF)
 else()
