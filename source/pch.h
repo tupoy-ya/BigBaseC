@@ -1,17 +1,15 @@
 #pragma once
 
-#define true 1
-#define false 0
 typedef unsigned int uint;
 typedef unsigned char byte;
 typedef unsigned char uchar;
 typedef unsigned short ushort;
-typedef int bool;
 
-#include <Windows.h>
+#include <stdbool.h>
+#include <windows.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include <Shlwapi.h>
+#include <shlwapi.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -20,7 +18,11 @@ typedef int bool;
 #include <stdarg.h>
 #include <string.h>
 
-#include "../MinHook/includes/MinHook.h"
+#if defined(__MINGW32__)
+#include <_mingw.h>
+#endif
+
+#include "include/MinHook.h"
 
 extern HANDLE g_mainThread;
 extern HMODULE g_hmod;

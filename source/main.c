@@ -1,8 +1,11 @@
-#include "pch.h"
 #include "logger.h"
 #include "hook.h"
 #include "script.h"
 #include "invoker.h"
+
+HANDLE g_mainThread;
+HMODULE g_hmod;
+bool g_running = true;
 
 DWORD WINAPI initialize(LPVOID lpParam) {
 	char* baseAdr = (char*)GetModuleHandleA(NULL);
