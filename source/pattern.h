@@ -1,5 +1,6 @@
 #pragma once
 #include "logger.h"
+#include <stdint.h>
 
 extern int g_foundPatterns;
 extern int g_totalPatterns;

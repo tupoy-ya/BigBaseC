@@ -1,6 +1,6 @@
 #pragma once
 
-extern BOOL consoleEnabled;
+extern bool consoleEnabled;
 enum ConsoleColors {
 	consoleBlackOnBlack = 0x00,
 	consoleBlackOnBlue = 0x10,

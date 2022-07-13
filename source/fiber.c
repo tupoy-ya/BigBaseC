@@ -1,4 +1,5 @@
 #include "fiber.h"
+#include <winbase.h>
 
 void fbrInit(fbr* this, void(*fn)()) {
 	this->m_scrFbr = CreateFiber(0, (LPFIBER_START_ROUTINE)fn, this);
