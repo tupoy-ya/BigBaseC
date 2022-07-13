@@ -1,7 +1,7 @@
 #include "gui.h"
-#include "pch.h"
 #include "fiber.h"
 #include "script.h"
+#include "natives.h"
 
 bool g_opened = true;
 //Positoning
@@ -86,7 +86,7 @@ float getTextWidth(char const* text, int32_t font, float scaleOverride) {
 		UI_SET_TEXT_FONT(font);
 	}
 	UI_SET_TEXT_SCALE(0.0f, scale);
-	return UI__END_TEXT_COMMAND_GET_WIDTH(TRUE);
+	return UI__END_TEXT_COMMAND_GET_WIDTH(true);
 }
 void drawText(char const* text, RGBA color, Vector2 position, Vector2 size, int font) {
 	UI_SET_TEXT_COLOUR(color.r, color.g, color.b, color.a);
@@ -106,7 +106,7 @@ void drawSprite(char const* dict, char const* texture, Vector2 pos, Vector2 size
 	Vector3 textureRes = GRAPHICS_GET_TEXTURE_RESOLUTION(dict, texture);
 	textureRes.x = (textureRes.x * (0.5f / scale)), textureRes.y = (textureRes.y * (0.5f / scale));
 	if (!GRAPHICS_HAS_STREAMED_TEXTURE_DICT_LOADED(dict))
-		GRAPHICS_REQUEST_STREAMED_TEXTURE_DICT(dict, FALSE);
+		GRAPHICS_REQUEST_STREAMED_TEXTURE_DICT(dict, false);
 	else
 		GRAPHICS_DRAW_SPRITE(dict, texture, pos.x, pos.y, ((textureRes.x / 1280.0f) * scale) * size.x, ((textureRes.y / 720.0f) * scale) * size.y, rotation, color.r, color.g, color.b, color.a);
 }
@@ -137,7 +137,7 @@ void backMenu() {
 void drawTitle(char const* title) {
 	drawRect(g_rectColor, Vector2(g_posX, g_posY + 0.07f), Vector2(g_width, 0.1f));
 	drawText(title, g_fontColor, Vector2((g_posX - 0.001f) - getTextWidth(title, -1, 0.f), g_posY + 0.04f), Vector2(1.f, 1.f), 1);
-	CONTROLS_DISABLE_CONTROL_ACTION(2, 27, TRUE);
+	CONTROLS_DISABLE_CONTROL_ACTION(2, 27, true);
 }
 void drawSubtitle(char const* title) {
 	char const* upperTitle = toUpper(title);
@@ -197,7 +197,7 @@ bool drawInt(char const* option, char const* description, int* inttochange, int 
 		*inttochange = max;
 	bool onThis = g_currentOption == g_optionCount ? true : false;
 	float opCountChecks = g_currentOption > g_maxVisOptions ? g_maxVisOptions : g_optionCount;
-	char const* text = toString(*inttochange, max);
+	char const* text = toString(*inttochange);
 	drawText(text, onThis ? g_selectedOptionText : g_optionText, Vector2(g_posX + (g_width - 0.112f) - getTextWidth(text, -1, 0.f), g_posY + 0.1f + 0.04f - 0.0115f + (0.035f * opCountChecks)), Vector2(0.35f, 0.35f), 0);
 	if (g_currentOption == g_optionCount) {
 		if (g_leftPressed) {
@@ -237,7 +237,7 @@ bool drawFloat(char const* option, char const* description, float* floattochange
 				*floattochange = min;
 		}
 	}
-	return FALSE;
+	return false;
 }
 void drawEnd() {
 	char const* texture = "shop_arrows_upanddown";
@@ -276,16 +276,16 @@ void playFrontendSound(char const* soundName) {
 void inputHandler() {
 	g_selectPressed = false;
 	g_leftPressed = false;
-	g_rightPressed = FALSE;
+	g_rightPressed = false;
 	if (GetTickCount() - g_previousTick > m_delay) {
-		if (GetAsyncKeyState(VK_INSERT) || CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 21) && CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 20)) {
+		if (GetAsyncKeyState(VK_INSERT) /*|| CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 21) && CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 20)*/) {
 			if (g_menuLevel == 0)
 				forwardMenu(mainmenu, "Home");
 			playFrontendSound(g_opened ? "SELECT" : "BACK");
 			g_opened = !g_opened;
 			g_previousTick = GetTickCount64();
 		}
-		else if (CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 194)) {
+		else if (GetAsyncKeyState(VK_BACK) /* CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 194)*/) {
 			if (g_opened && g_menuLevel != 0) {
 				playFrontendSound("BACK");
 				if (g_menuLevel == 1)
@@ -295,7 +295,7 @@ void inputHandler() {
 			}
 			g_previousTick = GetTickCount64();
 		}
-		else if (CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 172)) {
+		else if (GetAsyncKeyState(VK_UP) /*CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 172)*/) {
 			if (g_opened && g_menuLevel != 0) {
 				playFrontendSound("NAV_UP_DOWN");
 				if (g_currentOption > 1)
@@ -305,7 +305,7 @@ void inputHandler() {
 			}
 			g_previousTick = GetTickCount64();
 		}
-		else if (CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 173)) {
+		else if (GetAsyncKeyState(VK_DOWN) /*CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 173)*/) {
 			if (g_opened && g_menuLevel != 0) {
 				playFrontendSound("NAV_UP_DOWN");
 				if (g_currentOption < g_optionCount)
@@ -315,23 +315,23 @@ void inputHandler() {
 			}
 			g_previousTick = GetTickCount64();
 		}
-		else if (CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 174)) {
+		else if (GetAsyncKeyState(VK_LEFT) /*CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 174)*/) {
 			if (g_opened && g_menuLevel != 0) {
-				playFrontendSound("NAV_LEFT_RIGHT");
+				//playFrontendSound("NAV_LEFT_RIGHT"); // i have no idea why MinGW linker can't find it here
 				g_leftPressed = true;
 			}
 			g_previousTick = GetTickCount64();
 		}
-		else if (CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 175)) {
+		else if (GetAsyncKeyState(VK_RIGHT) /*CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 175)*/) {
 			if (g_opened && g_menuLevel != 0) {
-				playFrontendSound("NAV_LEFT_RIGHT");
+				//playFrontendSound("NAV_LEFT_RIGHT"); // i have no idea why MinGW linker can't find it here
 				g_rightPressed = true;
 			}
 			g_previousTick = GetTickCount64();
 		}
-		else if (CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 191)) {
+		else if (GetAsyncKeyState(VK_RETURN) /*CONTROLS_IS_DISABLED_CONTROL_PRESSED(2, 191)*/) {
 			if (g_opened && g_menuLevel != 0) {
-				playFrontendSound("SELECT");
+				//playFrontendSound("SELECT"); // i have no idea why MinGW linker can't find it here
 				g_selectPressed = true;
 			}
 			g_previousTick = GetTickCount64();
