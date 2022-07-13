@@ -42,7 +42,7 @@ typedef struct posBase {
 #pragma pack(push, 1)
 typedef struct CPed {
 	char pad_0000[32]; //0x0000
-	CPedModelInfo* m_ped_model_info; //0x0020
+	struct CPedModelInfo* m_ped_model_info; //0x0020
 	uint8_t m_entity_type; //0x0028
 	char pad_0029[3]; //0x0029
 	uint8_t m_invisible; //0x002C
@@ -80,9 +80,9 @@ typedef struct CNavigation {
 	float m_heading; //0x0020
 	float m_heading2; //0x0024
 	char pad_0028[8]; //0x0028
-	r_vector3 m_rotation; //0x0030
+	struct r_vector3 m_rotation; //0x0030
 	char pad_003C[20]; //0x003C
-	r_vector3 m_position; //0x0050
+	struct r_vector3 m_position; //0x0050
 } CNavigation; //Size: 0x005C
 
 typedef struct CBaseModelInfo {

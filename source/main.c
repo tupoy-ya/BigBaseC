@@ -1,5 +1,5 @@
 #include "logger.h"
-#include "hook.h"
+#include "hooks.h"
 #include "script.h"
 #include "invoker.h"
 

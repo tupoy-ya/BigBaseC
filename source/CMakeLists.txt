@@ -8,6 +8,8 @@ file(GLOB ROOT_SRC ${PROJECT_SOURCE_DIR}/*c)
 
 add_library(BigBaseC MODULE ${ROOT_SRC})
 
+set_property(TARGET BigBaseC PROPERTY CXX_STANDARD 20)
+
 if (CMAKE_C_COMPILER_ID MATCHES "MSVC")
     target_compile_options(BigBaseC PRIVATE -DUNICODE -D_UNICODE -DNOMINMAX /Zi)
     target_link_options(BigBaseC PRIVATE /DEBUG /OPT:REF /OPT:ICF)
@@ -16,6 +18,7 @@ else()
 endif()
 
 target_include_directories(BigBaseC PRIVATE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/../minhook)
+target_include_directories(BigBaseC PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_precompile_headers(BigBaseC PRIVATE pch.c)
 
