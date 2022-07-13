@@ -47,7 +47,7 @@ Generate and build the project.
 ```
 cd source
 mkdir build && cd build
-cmake ..
+cmake .. -D CMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -D CMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++ -DCMAKE_SYSTEM_NAME=Windows -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release
 make
 ```
 
